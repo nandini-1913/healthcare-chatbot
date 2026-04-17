@@ -23,3 +23,15 @@ This project is a Healthcare Chatbot built using Deep Learning and NLP technique
 ### 1. Install dependencies
 ```bash
 pip install -r requirements.txt
+
+💡 Example
+User: fever
+Bot: You might have flu. Stay hydrated and consult a doctor.
+
+⚠️ Disclaimer
+
+This chatbot is for educational purposes only and not a substitute for professional medical advice.
+
+👩‍💻 Author
+
+Nandini Malviya
