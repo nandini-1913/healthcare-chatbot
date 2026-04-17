@@ -1,0 +1,5 @@
+tensorflow
+keras
+nltk
+numpy
+pickle-mixin
