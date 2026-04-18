@@ -3,20 +3,52 @@ import os
 import json
 import pickle
 import tensorflow as tf
-import keras
 import nltk
-nltk.download('all')
 from nltk.stem import WordNetLemmatizer
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Dropout
-from tensorflow.keras.optimizers import SGD
-from tensorflow.keras.callbacks import EarlyStopping
+from keras.models import Sequential
+from keras.layers import Dense, Activation, Dropout
+from keras.optimizers import SGD
+from keras.callbacks import EarlyStopping
 
 import numpy as np
 
 lemmatizer = WordNetLemmatizer()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+NLTK_DATA_DIR = os.path.join(BASE_DIR, "nltk_data")
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+if NLTK_DATA_DIR not in nltk.data.path:
+    nltk.data.path.append(NLTK_DATA_DIR)
+
+
+def ensure_nltk_resource(resource_paths, download_name):
+    if isinstance(resource_paths, str):
+        resource_paths = [resource_paths]
+
+    for resource_path in resource_paths:
+        try:
+            nltk.data.find(resource_path)
+            return
+        except LookupError:
+            continue
+
+    nltk.download(download_name, download_dir=NLTK_DATA_DIR, quiet=True)
+
+    for resource_path in resource_paths:
+        try:
+            nltk.data.find(resource_path)
+            return
+        except LookupError:
+            continue
+
+    raise LookupError(
+        f"Missing NLTK resource '{download_name}'. Expected one of: {resource_paths}"
+    )
+
+
+ensure_nltk_resource("tokenizers/punkt", "punkt")
+ensure_nltk_resource(["corpora/wordnet", "corpora/wordnet.zip"], "wordnet")
+
 intents = json.loads(open(os.path.join(BASE_DIR, "intents_medquad.json")).read())
 
 words = []

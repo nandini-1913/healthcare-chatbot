@@ -5,15 +5,44 @@ import pickle
 import numpy as np
 import nltk
 from nltk.stem import WordNetLemmatizer
-from tensorflow.keras.models import load_model
-
-# download required data
-nltk.download('punkt')
-nltk.download('wordnet')
+from keras.models import load_model
 
 lemmatizer = WordNetLemmatizer()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+NLTK_DATA_DIR = os.path.join(BASE_DIR, "nltk_data")
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+if NLTK_DATA_DIR not in nltk.data.path:
+    nltk.data.path.append(NLTK_DATA_DIR)
+
+
+def ensure_nltk_resource(resource_paths, download_name):
+    if isinstance(resource_paths, str):
+        resource_paths = [resource_paths]
+
+    for resource_path in resource_paths:
+        try:
+            nltk.data.find(resource_path)
+            return
+        except LookupError:
+            continue
+
+    nltk.download(download_name, download_dir=NLTK_DATA_DIR, quiet=True)
+
+    for resource_path in resource_paths:
+        try:
+            nltk.data.find(resource_path)
+            return
+        except LookupError:
+            continue
+
+    raise LookupError(
+        f"Missing NLTK resource '{download_name}'. Expected one of: {resource_paths}"
+    )
+
+
+ensure_nltk_resource("tokenizers/punkt", "punkt")
+ensure_nltk_resource(["corpora/wordnet", "corpora/wordnet.zip"], "wordnet")
 
 # load files
 intents = json.loads(open(os.path.join(BASE_DIR, "intents_medquad.json")).read())
