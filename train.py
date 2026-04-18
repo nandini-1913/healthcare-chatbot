@@ -1,4 +1,5 @@
 import random
+import os
 import json
 import pickle
 import tensorflow as tf
@@ -15,7 +16,8 @@ import numpy as np
 
 lemmatizer = WordNetLemmatizer()
 
-intents = json.loads(open("/content/sample_data/intents_medquad.json").read())
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+intents = json.loads(open(os.path.join(BASE_DIR, "intents_medquad.json")).read())
 
 words = []
 classes = []
@@ -85,5 +87,5 @@ early_stop = EarlyStopping(
 hist = model.fit(np.array(train_x),np.array(train_y), epochs=100, batch_size=8,
     validation_split=0.2, callbacks=[early_stop],verbose=1)
 
-model.save("chatbot_model.keras", hist)
+model.save(os.path.join(BASE_DIR, "chatbot_model.keras"))
 print("Done!")
