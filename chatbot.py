@@ -1,5 +1,6 @@
 import random
 import json
+import os
 import pickle
 import numpy as np
 import nltk
@@ -12,8 +13,10 @@ nltk.download('wordnet')
 
 lemmatizer = WordNetLemmatizer()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # load files
-intents = json.loads(open("/content/sample_data/intents_medquad.json").read())
+intents = json.loads(open(os.path.join(BASE_DIR, "intents_medquad.json")).read())
 words = pickle.load(open("words.pkl", "rb"))
 classes = pickle.load(open("classes.pkl", "rb"))
 model = load_model("chatbot_model.keras")
