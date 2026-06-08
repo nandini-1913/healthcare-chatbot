@@ -66,26 +66,7 @@ This chatbot is for educational purposes only and should not be considered a sub
 
 Nandini Malviya
 
----
 
-# ⭐ Why this version is better
 
-✔ Clean formatting  
-✔ Complete steps  
-✔ Looks professional  
-✔ Good for GitHub + resume  
-✔ Easy for evaluator to run  
 
----
 
-# 🔥 Optional (to impress more)
-
-You can add later:
-- Screenshots 📸
-- Demo video 🎥
-- Future improvements section
-
----
-
-If you want, next I can:
-👉 :contentReference[oaicite:0]{index=0} — this boosts your project level a lot 🚀
